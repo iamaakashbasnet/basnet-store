@@ -4,6 +4,10 @@
 <h3 align="center">Basnet Store</h3>
 <p align="center">Customer credit management web app for Basnet Store</p>
 
+<hr />
+
+Transitioning from traditional pen-and-paper methods for recording customer credit data at Basnet Store, this web app emerges as a modern solution to streamline and manage customer credit seamlessly.
+
 ## Project Setup
 
 Install required packages
