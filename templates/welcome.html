@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/welcome.css' %}"/>
+{% endblock css %}
+
+{% block content %}
+  <div
+    id="welcome"
+    class="d-flex flex-column justify-content-center align-items-center text-center"
+  >
+    <div class="content">
+      <img class="img-fluid m-2" style="width: 10rem;" src="{% static 'img/logo.png' %}" alt="DropThought Logo" />
+      <h1>Basnet Store</h1>
+      <p>Customer credit management web app for Basnet Store</p>
+    </div>
+  </div>
+{% endblock content %}
