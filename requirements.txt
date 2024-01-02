@@ -1,7 +1,9 @@
 asgiref==3.7.2
 astroid==3.0.2
+crispy-bootstrap5==2023.10
 dill==0.3.7
 Django==5.0.1
+django-crispy-forms==2.1
 isort==5.13.2
 mccabe==0.7.0
 platformdirs==4.1.0
