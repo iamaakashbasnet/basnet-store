@@ -24,3 +24,13 @@ Initialize database:
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
+
+<br />
+
+<details>
+    <summary>Demo</summary>
+    <br>
+    <p align="center">
+        <img src="https://github.com/iamaakashbasnet/basnet-store/assets/136826895/fa946988-a40a-41ce-aa90-eebb9b7e9a34" alt="Basnet Store home page" width="100%" />
+    </p>
+</details>
