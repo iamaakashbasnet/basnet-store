@@ -5,6 +5,7 @@ from django.views.generic import (
     View,
     ListView,
     CreateView,
+    UpdateView,
 )
 
 from .models import Customer, Transaction
@@ -47,6 +48,16 @@ class TransactionCreateView(CreateView):
         customer.save()
 
         return response
+
+    def get_success_url(self):
+        customer = self.kwargs.get('pk')
+        return reverse_lazy('customer-manage', kwargs={'pk': customer})
+
+
+class CustomerEditView(UpdateView):
+    model = Customer
+    fields = ['first_name', 'last_name']
+    template_name = 'customers/edit_customer.html'
 
     def get_success_url(self):
         customer = self.kwargs.get('pk')

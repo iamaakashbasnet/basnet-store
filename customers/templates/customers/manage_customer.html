@@ -6,7 +6,10 @@
 
     <div class="card my-5">
         <div class="card-body">
-          <h5 class="card-title">{{ customer.first_name }} {{ customer.last_name }}</h5>
+          <div class="d-flex gap-2">
+            <h5 class="card-title">{{ customer.first_name }} {{ customer.last_name }}</h5>
+            <a href="{% url 'customer-edit' customer.pk %}"><i class="bi-pencil-square"></i></a>
+          </div>
           <a class="btn btn-primary btn-sm" href="{% url "transaction-create" customer.id %}">Add transaction</a>
         </div>
         <div class="card-footer text-body-secondary">
