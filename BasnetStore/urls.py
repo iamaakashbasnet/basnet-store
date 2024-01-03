@@ -10,6 +10,8 @@ urlpatterns = [
 
     path('', WelcomeView.as_view(), name='welcome'),
 
+    path('', include('customers.urls')),
+
     path('accounts/', include('accounts.urls'))
 ]
 

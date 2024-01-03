@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
 
     'accounts',
+    'customers',
 ]
 
 
@@ -106,3 +107,10 @@ AUTH_USER_MODEL = 'accounts.User'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'customer-list'
+
+LOGOUT_REDIRECT_URL = 'welcome'
