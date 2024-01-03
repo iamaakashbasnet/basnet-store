@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
@@ -9,6 +9,7 @@ from django.views.generic import (
 )
 
 from .models import Customer, Transaction
+from .forms import PaymentForm
 
 
 class CustomerListView(LoginRequiredMixin, ListView):
@@ -62,3 +63,31 @@ class CustomerEditView(UpdateView):
     def get_success_url(self):
         customer = self.kwargs.get('pk')
         return reverse_lazy('customer-manage', kwargs={'pk': customer})
+
+
+class CustomerPaymentView(View):
+    def get(self, request, *args, **kwargs):
+        customer = Customer.objects.get(pk=self.kwargs.get('pk'))
+        form = PaymentForm()
+        context = {'customer': customer, 'form': form}
+        return render(request, template_name='customers/payment_customer.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        customer = Customer.objects.get(pk=self.kwargs.get('pk'))
+        transactions = Transaction.objects.filter(
+            customer=customer, isPaid=False)
+        form = PaymentForm(request.POST)
+
+        if form.is_valid():
+            payment_number = form.cleaned_data['payment_number']
+            customer.credit_balance -= payment_number
+            customer.save()
+
+            for transaction in transactions:
+                transaction.isPaid = True
+                transaction.save()
+
+            return redirect('customer-manage', pk=customer.pk)
+
+        context = {'customer': customer, 'form': form}
+        return render(request, template_name='customers/payment_customer.html', context=context)

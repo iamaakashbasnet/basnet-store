@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
+{% block css %}
+<style>
+  tr {
+    position: relative;
+  }
+  
+  tr.strikeout td:before {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border-bottom: 2px solid #111;
+    width: 100%;
+}
+</style>
+{% endblock css %}
+
 {% block content %}
   <div class="mt-2">
     <h2>Manage Customer</h2>
@@ -11,6 +28,7 @@
             <a href="{% url 'customer-edit' customer.pk %}"><i class="bi-pencil-square"></i></a>
           </div>
           <a class="btn btn-primary btn-sm" href="{% url "transaction-create" customer.id %}">Add transaction</a>
+          <a class="btn btn-warning btn-sm" href="{% url "customer-payment" customer.id %}">Make Payment</a>
         </div>
         <div class="card-footer text-body-secondary">
           Credit Balance - {{ customer.credit_balance }}
@@ -28,7 +46,7 @@
           </thead>
           <tbody>
             {% for transaction in transactions %}
-              <tr class="align-middle">
+              <tr class="align-middle {% if transaction.isPaid %}strikeout{% endif %}">
                 <td>{{ transaction.timestamp|date:"F d, Y" }}</td>
                 <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.description }}</td>

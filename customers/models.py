@@ -17,6 +17,7 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     description = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    isPaid = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.customer.first_name} {self.customer.last_name} - Rs.{self.amount}"

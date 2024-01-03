@@ -6,6 +6,7 @@ from .views import (
     CustomerManageView,
     TransactionCreateView,
     CustomerEditView,
+    CustomerPaymentView
 )
 
 
@@ -16,6 +17,8 @@ urlpatterns = [
 
     path('manage/<int:pk>/',
          CustomerManageView.as_view(), name='customer-manage'),
-    path('customer/<int:pk>/transaction/create/', TransactionCreateView.as_view(),
+    path('transaction/<int:pk>/create/', TransactionCreateView.as_view(),
          name='transaction-create'),
+    path('payment/<int:pk>/',
+         CustomerPaymentView.as_view(), name='customer-payment')
 ]
