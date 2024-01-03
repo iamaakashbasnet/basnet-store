@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db import models
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
@@ -17,6 +18,17 @@ class CustomerListView(LoginRequiredMixin, ListView):
     template_name = 'customers/list_customers.html'
     context_object_name = 'customers'
     ordering = 'first_name'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        total_customers = Customer.objects.count()
+        total_credit_balance = Customer.objects.aggregate(
+            total_credit_balance=models.Sum('credit_balance'))['total_credit_balance']
+
+        context['total_credit_balance'] = total_credit_balance
+        context['total_customers'] = total_customers
+        return context
 
 
 class CustomerCreateView(LoginRequiredMixin, CreateView):

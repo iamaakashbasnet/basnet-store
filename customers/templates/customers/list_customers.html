@@ -4,6 +4,18 @@
   <div class="mt-2">
     <h2>Welcome {{ request.user.first_name }} {{ request.user.last_name }}</h2>
     <br />
+
+    <div class="card" style="width: 18rem;">
+      <div class="card-header fw-bold" style="font-family: Jost;">
+        OVERALL CREDIT STATUS
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Total Credit Balance: {{ total_credit_balance }}</li>
+        <li class="list-group-item">Total Credit Customers: {{ total_customers }}</li>
+      </ul>
+    </div>
+    <br />
+
     <div class="d-flex align-items-center gap-3 my-3">
       <h3 class="m-0 p-0">Customer's List</h3>
       <a href="{% url 'customer-create' %}" class="btn btn-primary btn-sm">Add new customer</a>
