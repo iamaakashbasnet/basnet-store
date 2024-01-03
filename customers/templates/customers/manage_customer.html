@@ -7,6 +7,7 @@
     <div class="card my-5">
         <div class="card-body">
           <h5 class="card-title">{{ customer.first_name }} {{ customer.last_name }}</h5>
+          <a class="btn btn-primary btn-sm" href="{% url "transaction-create" customer.id %}">Add transaction</a>
         </div>
         <div class="card-footer text-body-secondary">
           Credit Balance - {{ customer.credit_balance }}

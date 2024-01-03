@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     View,
@@ -26,6 +27,27 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
 class CustomerManageView(View):
     def get(self, request, *args, **kwargs):
         customer = Customer.objects.get(pk=self.kwargs.get('pk'))
-        transactions = Transaction.objects.filter(customer=customer)
+        transactions = Transaction.objects.filter(
+            customer=customer).order_by('-timestamp')
         context = {'customer': customer, 'transactions': transactions}
         return render(request, template_name='customers/manage_customer.html', context=context)
+
+
+class TransactionCreateView(CreateView):
+    model = Transaction
+    fields = ['amount', 'description']
+    template_name = 'customers/create_transaction.html'
+
+    def form_valid(self, form):
+        customer = Customer.objects.get(pk=self.kwargs.get('pk'))
+        form.instance.customer = customer
+        response = super().form_valid(form)
+
+        customer.credit_balance += form.cleaned_data['amount']
+        customer.save()
+
+        return response
+
+    def get_success_url(self):
+        customer = self.kwargs.get('pk')
+        return reverse_lazy('customer-manage', kwargs={'pk': customer})
