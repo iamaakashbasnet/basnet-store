@@ -59,7 +59,16 @@
     <tbody>
       {% for transaction in transactions %}
       <tr class="align-middle {% if transaction.isPaid %}strikeout{% endif %}">
-        <td>{{ transaction.timestamp|date:"F d, Y" }}</td>
+        <td class="d-flex align-items-center gap-1">
+          {% if not transaction.isPaid %}
+          <form method="post" action="{% url 'customer-manage' transaction.customer.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="transaction_id" value="{{ transaction.id }}">
+            <button type="submit" class="btn btn-primary btn-sm">Pay</button>
+          </form>
+          {% endif %}
+          {{ transaction.timestamp|date:"F d, Y" }}
+        </td>
         <td>{{ transaction.amount }}</td>
         <td>{{ transaction.description }}</td>
       </tr>

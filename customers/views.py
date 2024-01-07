@@ -51,6 +51,20 @@ class CustomerManageView(View):
         context = {'customer': customer, 'transactions': transactions}
         return render(request, template_name='customers/manage_customer.html', context=context)
 
+    def post(self, request, *args, **kwargs):
+        transaction = Transaction.objects.get(
+            id=request.POST.get('transaction_id'))
+        customer = Customer.objects.get(pk=self.kwargs.get('pk'))
+        transaction.isPaid = True
+        customer.credit_balance -= transaction.amount
+        transaction.save()
+        customer.save()
+
+        messages.success(
+            request, f'{transaction.description}, amount of {transaction.amount} paid.')
+
+        return redirect('customer-manage', pk=customer.pk)
+
 
 class TransactionCreateView(CreateView):
     model = Transaction
