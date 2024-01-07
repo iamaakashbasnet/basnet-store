@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import models
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     View,
@@ -37,6 +38,10 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
     template_name = "customers/create_customer.html"
     success_url = "/customers"
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Customer successfully created.')
+        return super().form_valid(form)
+
 
 class CustomerManageView(View):
     def get(self, request, *args, **kwargs):
@@ -59,6 +64,8 @@ class TransactionCreateView(CreateView):
 
         customer.credit_balance += form.cleaned_data['amount']
         customer.save()
+
+        messages.success(self.request, 'Transaction added successfully.')
 
         return response
 
@@ -92,12 +99,20 @@ class CustomerPaymentView(View):
 
         if form.is_valid():
             payment_number = form.cleaned_data['payment_number']
-            customer.credit_balance -= payment_number
-            customer.save()
 
-            for transaction in transactions:
-                transaction.isPaid = True
-                transaction.save()
+            if customer.credit_balance == 0:
+                messages.error(request,
+                               'Cannot make payment. Credit balance is already 0.00')
+            else:
+                customer.credit_balance -= payment_number
+                customer.save()
+
+                for transaction in transactions:
+                    transaction.isPaid = True
+                    transaction.save()
+
+                messages.success(
+                    request, f'Payment of Rs. {payment_number} received.')
 
             return redirect('customer-manage', pk=customer.pk)
 

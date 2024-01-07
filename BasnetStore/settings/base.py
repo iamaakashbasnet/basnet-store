@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from django.contrib import messages
 
 
 load_dotenv()
@@ -114,3 +115,11 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'customer-list'
 
 LOGOUT_REDIRECT_URL = 'welcome'
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
