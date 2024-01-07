@@ -21,6 +21,7 @@ class UserManager(BaseUserManager):
         if not first_name and last_name:
             raise ValueError('User must have a first name and a last name.')
 
+        extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_superuser', True)
